@@ -1,14 +1,27 @@
+// Communication pins
+#define RP1 18
+#define RP2 19
+#define RP3 21
+#define RP4 3
+
+// Motor pins
+#define ENA 15
+#define IN1 2
+#define IN2 4
+#define IN3 16
+#define IN4 17
+#define ENB 5
 
 // Ultrasound pins
-#define ECHO 15 
-#define TRIG 2
+#define ECHO 33 
+#define TRIG 25
 
 // Line sensor pins
-#define D1 16
-#define D2 17
-#define D3 5
-#define D4 18
-#define D5 19
+#define D1 13
+#define D2 12
+#define D3 14
+#define D4 27
+#define D5 26
 
 void ultrasoundSensorTest() {
   // Set pin to low
@@ -69,3 +82,4 @@ void loop() {
   ultrasoundSensorTest();
   lineSensorTest();
 }
+
