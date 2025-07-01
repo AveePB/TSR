@@ -1,23 +1,41 @@
+/**
+ * @file line_follower.ino 
+ * @brief Main code of the line follower.
+ */
+
 #include "ultrasonic.h"
 #include "linetracking.h"
 #include "motors.h"
+#include "communication.h"
 
 // Electronic components
 Motor motors;
 LineSensor lineSensor;
 UltrasonicSensor ultrasonicSensor;
+CommunicationProtocol communicationProtocol;
 
-void setup() {
-  // put your setup code here, to run once:
-
-}
+void setup() { }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // Read correction info
+  Movement currMovement = lineSensor.findLine();
+  
+  // Obstacle detected
+  if (lineSensor.findObstacle() < 15) motors.stop();
 
-  motors.moveForward();
-  delay(1000);
-  motors.stop();
-  delay(1000);
-
+  // Move forward
+  if (currMovement == Movement::FORWARD)
+    motors.moveForward();
+  
+  // Move left
+  else if (currMovement == Movement::LEFT)
+    motors.turnLeft();
+  
+  // Move right
+  else if (currMovement == Movement::RIGHT);
+    motors.turnRight();
+  
+  // Stop
+  else
+    motors.stop();
 }
