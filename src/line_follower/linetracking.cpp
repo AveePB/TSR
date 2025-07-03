@@ -69,7 +69,38 @@ LineSensor::~LineSensor() {
  * @return A Movement value: FORWARD, LEFT, RIGHT or STOP.
  */
 Movement LineSensor::findLine() {
-  // Replace with actual sensor reading logic and movement decision.
+  // Read data from sensor
+  int in1 = digitalRead(this->d1);
+  int in2 = digitalRead(this->d2);
+  int in3 = digitalRead(this->d3);
+  int in4 = digitalRead(this->d4);
+  int in5 = digitalRead(this->d5);
 
+  // Go forward
+  if (
+    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 0 && in5 == 0) || // 0 0 1 0 0
+    (in1 == 0 && in2 == 1 && in3 == 1 && in4 == 1 && in5 == 0) || // 0 1 1 1 0
+    (in1 == 1 && in2 == 1 && in3 == 1 && in4 == 1 && in5 == 1)    // 1 1 1 1 1
+  ) return Movement::FORWARD;
+
+  // Go right
+  else if (
+    (in1 == 0 && in2 == 0 && in3 == 0 && in4 == 0 && in5 == 1) || // 0 0 0 0 1
+    (in1 == 0 && in2 == 0 && in3 == 0 && in4 == 1 && in5 == 0) || // 0 0 0 1 0
+    (in1 == 0 && in2 == 0 && in3 == 0 && in4 == 1 && in5 == 1) || // 0 0 0 1 1
+    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 0) || // 0 0 1 1 0
+    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 1)    // 0 0 1 1 1
+  ) return Movement::RIGHT;
+
+  // Go left
+  else if (
+    (in1 == 1 && in2 == 0 && in3 == 0 && in4 == 0 && in5 == 0) || // 1 0 0 0 0
+    (in1 == 0 && in2 == 1 && in3 == 0 && in4 == 0 && in5 == 0) || // 0 1 0 0 0
+    (in1 == 1 && in2 == 1 && in3 == 0 && in4 == 0 && in5 == 0) || // 1 1 0 0 0
+    (in1 == 0 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0) || // 0 1 1 0 0
+    (in1 == 1 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0)    // 1 1 1 0 0
+  ) return Movement::LEFT;
+
+  // Don't move
   return Movement::STOP;
 }

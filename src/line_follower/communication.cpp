@@ -55,24 +55,23 @@ CommunicationProtocol::CommunicationProtocol(int in1, int in2, int out1, int out
  * Uses output pins to encode the left and right motor directions (e.g., as bits or signals),
  * which the Raspberry Pi can decode to monitor robot status.
  *
- * @param leftMT Reference to the left motor's spin direction.
- * @param rightMT Reference to the right motor's spin direction.
+ * @param movement the currently performed maneuver.
  */
-void CommunicationProtocol::sendManeuverInfo(SpinDirection& leftMT, SpinDirection& rightMT) {
+void CommunicationProtocol::sendManeuverInfo(Movement movement) {
   // Communication bits
   std::pair<int, int> bits = {0, 0};
 
   // Forward maneuver (11)
-  if (leftMT == SpinDirection::FORWARD && rightMT == SpinDirection::FORWARD) bits = {1, 1};
+  if (movement == Movement::FORWARD) bits = {1, 1};
 
   // Turn right maneuver (01)
-  else if (leftMT == SpinDirection::FORWARD && rightMT == SpinDirection::BACKWARD) bits = {0, 1};
+  else if (movement == Movement::RIGHT) bits = {0, 1};
 
   // Turn left maneuver (10)
-  else if (leftMT == SpinDirection::BACKWARD && rightMT == SpinDirection::FORWARD) bits = {1, 0};
+  else if (movement == Movement::LEFT) bits = {1, 0};
 
   // None maneuver (00)
-  else if (leftMT == SpinDirection::NONE && rightMT == SpinDirection::NONE) bits = {0, 0};
+  else if (movement == Movement::STOP) bits = {0, 0};
 
   // Send message
   digitalWrite(this->out1, bits.first);
@@ -84,26 +83,26 @@ void CommunicationProtocol::sendManeuverInfo(SpinDirection& leftMT, SpinDirectio
  *
  * Checks the input pins and translates their state into a high-level Maneuver command.
  *
- * @return A Maneuver enum value: FORWARD, LEFT, RIGHT, or NONE.
+ * @return A Movement enum value: FORWARD, LEFT, RIGHT, or STOP.
  */
-Maneuver CommunicationProtocol::readManeuverInfo() {
+Movement CommunicationProtocol::readManeuverInfo() {
   // Read communication bits
   std::pair<int, int> bits;
   bits.first = digitalRead(this->in1);
   bits.second = digitalRead(this->in2);
 
   // Forward maneuver (11)
-  if (bits.first == 1 && bits.second == 1) return Maneuver::FORWARD;
+  if (bits.first == 1 && bits.second == 1) return Movement::FORWARD;
 
   // Turn right maneuver (01)
-  else if (bits.first == 0 && bits.second == 1) return Maneuver::RIGHT;
+  else if (bits.first == 0 && bits.second == 1) return Movement::RIGHT;
 
   // Turn left maneuver (10)
-  else if (bits.first == 1 && bits.second == 0) return Maneuver::LEFT;
+  else if (bits.first == 1 && bits.second == 0) return Movement::LEFT;
 
   // None maneuver (00)
-  else if (bits.first == 0 && bits.second == 0) return Maneuver::NONE;
+  else if (bits.first == 0 && bits.second == 0) return Movement::STOP;
 
   // Safe return
-  return Maneuver::NONE;
+  return Movement::STOP;
 }

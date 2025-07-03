@@ -6,18 +6,7 @@
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 
-#include "motors.h"  // Required for SpinDirection enum
-
-/**
- * @enum Maneuver
- * @brief Represents high-level movement commands sent from the Raspberry Pi to the ESP32.
- */
-enum class Maneuver {
-  LEFT,    /**< Command to turn left */
-  RIGHT,   /**< Command to turn right */
-  FORWARD, /**< Command to move forward */
-  NONE     /**< No command or stop instruction */
-};
+#include "linetracking.h"
 
 /**
  * @class CommunicationProtocol
@@ -54,19 +43,18 @@ class CommunicationProtocol {
      * Uses output pins to encode the left and right motor directions (e.g., as bits or signals),
      * which the Raspberry Pi can decode to monitor robot status.
      *
-     * @param leftMT Reference to the left motor's spin direction.
-     * @param rightMT Reference to the right motor's spin direction.
+     * @param movement the currently performed maneuver.
      */
-    void sendManeuverInfo(SpinDirection& leftMT, SpinDirection& rightMT);
+    void sendManeuverInfo(Movement movement);
 
     /**
      * @brief Reads maneuver instructions from the Raspberry Pi.
      *
      * Checks the input pins and translates their state into a high-level Maneuver command.
      *
-     * @return A Maneuver enum value: FORWARD, LEFT, RIGHT, or NONE.
+     * @return A Maneuver enum value: FORWARD, LEFT, RIGHT, or STOP.
      */
-    Maneuver readManeuverInfo();
+    Movement readManeuverInfo();
 
   private:
     int in1;  /**< GPIO input pin 1 for receiving maneuver instructions. */
