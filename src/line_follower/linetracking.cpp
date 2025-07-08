@@ -89,7 +89,8 @@ Movement LineSensor::findLine() {
     (in1 == 0 && in2 == 0 && in3 == 0 && in4 == 1 && in5 == 0) || // 0 0 0 1 0
     (in1 == 0 && in2 == 0 && in3 == 0 && in4 == 1 && in5 == 1) || // 0 0 0 1 1
     (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 0) || // 0 0 1 1 0
-    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 1)    // 0 0 1 1 1
+    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 1) || // 0 0 1 1 1
+    (in1 == 0 && in2 == 0 && in3 == 1 && in4 == 1 && in5 == 1)    // 0 1 1 1 1
   ) return Movement::RIGHT;
 
   // Go left
@@ -98,7 +99,8 @@ Movement LineSensor::findLine() {
     (in1 == 0 && in2 == 1 && in3 == 0 && in4 == 0 && in5 == 0) || // 0 1 0 0 0
     (in1 == 1 && in2 == 1 && in3 == 0 && in4 == 0 && in5 == 0) || // 1 1 0 0 0
     (in1 == 0 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0) || // 0 1 1 0 0
-    (in1 == 1 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0)    // 1 1 1 0 0
+    (in1 == 1 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0) || // 1 1 1 0 0
+    (in1 == 1 && in2 == 1 && in3 == 1 && in4 == 0 && in5 == 0)    // 1 1 1 1 0
   ) return Movement::LEFT;
 
   // Don't move

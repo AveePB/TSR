@@ -27,11 +27,8 @@ Motor::Motor() {
   this->in4 = IN4;
   this->enb = ENB;
 
-  this->speed = 100;
+  this->speed = SPEED;
   this->stop();
-
-  this->leftMotorSpinDirection = SpinDirection::NONE;
-  this->rightMotorSpinDirection = SpinDirection::NONE;
 }
 
 /**
@@ -61,11 +58,8 @@ Motor::Motor(int ena, int in1, int in2, int in3, int in4, int enb) {
   this->in4 = in4;
   this->enb = enb;
 
-  this->speed = 100;
+  this->speed = SPEED;
   this->stop();
-
-  this->leftMotorSpinDirection = SpinDirection::NONE;
-  this->rightMotorSpinDirection = SpinDirection::NONE;
 }
 
 /**
@@ -135,20 +129,4 @@ void Motor::stop() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
   analogWrite(ENB, 0);
-}
-
-/**
- * @brief getter function of leftMotorSpinDirection.
- */
-SpinDirection Motor::getLeftMotorSpinDirection() {
-
-  return this->leftMotorSpinDirection;  
-}
-
-/**
- * @brief getter function of rightMotorSpinDirection.
- */
-SpinDirection Motor::getRightMotorSpinDirection() {
-
-  return this->rightMotorSpinDirection;
 }

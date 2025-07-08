@@ -5,16 +5,7 @@
 
 #ifndef MOTORS_H
 #define MOTORS_H
-
-/**
- * @enum SpinDirection
- * @brief Represents the possible spin directions of the motors.
- */
-enum class SpinDirection {
-  FORWARD,   /**< Motor spins forward. */
-  BACKWARD,  /**< Motor spins backward. */
-  NONE       /**< Motor is not spinning. */
-};
+#define SPEED 80
 
 /**
  * @class Motor
@@ -73,17 +64,6 @@ class Motor {
      */
     void stop();
 
-    /**
-     * @brief getter function of leftMotorSpinDirection.
-     */
-    SpinDirection getLeftMotorSpinDirection();
-
-    /**
-     * @brief getter function of rightMotorSpinDirection.
-     */
-    SpinDirection getRightMotorSpinDirection();
-
-
   private:
     int ena; /**< Enable pin for left motor. */
     int in1; /**< IN1 pin for left motor direction. */
@@ -92,9 +72,6 @@ class Motor {
     int in4; /**< IN4 pin for right motor direction. */
     int enb; /**< Enable pin for right motor. */
     int speed; /**< Pwm speed (0-255). */
-
-    SpinDirection leftMotorSpinDirection;  /**< Current spin direction of left motor. */
-    SpinDirection rightMotorSpinDirection; /**< Current spin direction of right motor. */
 };
 
 #endif // MOTORS_H
